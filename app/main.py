@@ -1,5 +1,6 @@
 from fastapi import Depends, FastAPI, HTTPException
 from pydantic import BaseModel, ConfigDict
+from sqlalchemy import text
 from sqlalchemy.orm import Session
 
 from app.database import Base, engine, get_db
@@ -28,7 +29,8 @@ def root():
         "service": "job-tracker-api",
         "version": "1.0.0",
         "docs": "/docs",
-        "health": "/health"
+        "health": "/health",
+        "ready": "/ready"
     }
 
 
@@ -38,6 +40,18 @@ def health_check():
         "status": "healthy",
         "service": "job-tracker-api"
     }
+
+
+@app.get("/ready")
+def readiness_check(db: Session = Depends(get_db)):
+    try:
+        db.execute(text("SELECT 1"))
+        return {
+            "status": "ready",
+            "database": "connected"
+        }
+    except Exception:
+        raise HTTPException(status_code=503, detail="Database not ready")
 
 
 @app.get("/jobs", response_model=list[JobResponse])

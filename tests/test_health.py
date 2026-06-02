@@ -11,6 +11,7 @@ def test_root_endpoint():
     assert response.json()["service"] == "job-tracker-api"
     assert response.json()["docs"] == "/docs"
     assert response.json()["health"] == "/health"
+    assert response.json()["ready"] == "/ready"
 
 
 def test_health_check():
@@ -19,3 +20,11 @@ def test_health_check():
     assert response.status_code == 200
     assert response.json()["status"] == "healthy"
     assert response.json()["service"] == "job-tracker-api"
+
+
+def test_readiness_check():
+    response = client.get("/ready")
+
+    assert response.status_code == 200
+    assert response.json()["status"] == "ready"
+    assert response.json()["database"] == "connected"
