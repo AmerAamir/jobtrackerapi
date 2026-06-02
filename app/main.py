@@ -4,16 +4,30 @@ from typing import Dict
 
 app = FastAPI(title="Job Tracker API", version="1.0.0")
 
+
 class JobCreate(BaseModel):
     company: str
     role: str
     status: str
 
+
 class Job(JobCreate):
     id: int
 
+
 jobs: Dict[int, Job] = {}
 next_id = 1
+
+
+@app.get("/")
+def root():
+    return {
+        "service": "job-tracker-api",
+        "version": "1.0.0",
+        "docs": "/docs",
+        "health": "/health"
+    }
+
 
 @app.get("/health")
 def health_check():
@@ -22,9 +36,11 @@ def health_check():
         "service": "job-tracker-api"
     }
 
+
 @app.get("/jobs")
 def list_jobs():
     return list(jobs.values())
+
 
 @app.post("/jobs", status_code=201)
 def create_job(job: JobCreate):
@@ -41,6 +57,7 @@ def create_job(job: JobCreate):
     next_id += 1
 
     return new_job
+
 
 @app.get("/jobs/{job_id}")
 def get_job(job_id: int):

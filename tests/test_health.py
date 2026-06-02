@@ -3,6 +3,16 @@ from app.main import app
 
 client = TestClient(app)
 
+
+def test_root_endpoint():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert response.json()["service"] == "job-tracker-api"
+    assert response.json()["docs"] == "/docs"
+    assert response.json()["health"] == "/health"
+
+
 def test_health_check():
     response = client.get("/health")
 
