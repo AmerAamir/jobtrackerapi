@@ -13,3 +13,7 @@ private_subnet_cidrs = [
   "10.20.101.0/24",
   "10.20.102.0/24"
 ]
+
+db_name     = "jobtracker"
+db_username = "jobuser"
+db_password = "change-me-for-real-use"

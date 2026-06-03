@@ -27,3 +27,19 @@ variable "private_subnet_cidrs" {
   description = "CIDR blocks for private subnets"
   type        = list(string)
 }
+
+variable "db_name" {
+  description = "PostgreSQL database name"
+  type        = string
+}
+
+variable "db_username" {
+  description = "PostgreSQL admin username"
+  type        = string
+}
+
+variable "db_password" {
+  description = "PostgreSQL admin password"
+  type        = string
+  sensitive   = true
+}
