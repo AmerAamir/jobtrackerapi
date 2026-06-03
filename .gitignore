@@ -6,3 +6,10 @@ __pycache__/
 .DS_Store
 .vscode/
 jobtracker.db
+
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+crash.log
+crash.*.log
