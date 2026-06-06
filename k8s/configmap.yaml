@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: job-tracker-api-config
+  namespace: job-tracker
+data:
+  APP_ENV: "dev"
+  APP_NAME: "job-tracker-api"
