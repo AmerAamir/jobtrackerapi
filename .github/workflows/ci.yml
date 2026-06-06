@@ -60,9 +60,6 @@ jobs:
 
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
-    outputs:
-      image_tag: ${{ steps.image-vars.outputs.image_tag }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -76,11 +73,6 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Set image variables
-        id: image-vars
-        run: |
-          echo "image_tag=${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
 
       - name: Build, tag, and push image
         env:
